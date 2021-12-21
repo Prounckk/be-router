@@ -1,0 +1,28 @@
+GET http://localhost:8080/v1/parkings/B233
+Accept: application/json
+
+###
+
+GET http://localhost:8080/v1/users/34/parking/P231
+Accept: application/json
+
+###
+
+GET http://localhost:8080/v1/users/34/parking/B233/timer
+Accept: application/json
+###
+
+GET http://localhost:8080/v1/users/34/parking/P231/timer
+Accept: application/json
+###
+
+GET http://localhost:8080/v1/inspectors/22/parking/P231
+Accept: application/json
+
+###
+# The health check
+GET http://localhost:8080/ping
+Accept: application/json
+
+###
+
