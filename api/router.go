@@ -26,7 +26,6 @@ func RegisterRoutes(r *mux.Router) {
 	p.HandleFunc("/{number}", controller.GetParkingByName).Methods("GET")
 
 	u := v1.PathPrefix("/users").Subrouter()
-	u.Use(middleware.AuthMiddleware)
 	u.HandleFunc("/{id}/parking/{number}", notImplemented).Methods("PUT")
 	u.HandleFunc("/{id}/parking/{number}", controller.GetParkingStatusByName).Methods("GET")
 	u.HandleFunc("/{id}/parking/{number}/timer", controller.GetParkingTimerByName).Methods("GET")
