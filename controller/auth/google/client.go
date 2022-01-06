@@ -49,7 +49,6 @@ func setCookie(w http.ResponseWriter, email string) {
 
 // AuthenticateUser redirect user to Google Authentication page
 func AuthenticateUser(w http.ResponseWriter, r *http.Request) {
-	ctx = context.Background()
 	// this is config file with setting for Google OAuth2 application
 	// see the setting at ls-marketing-dev
 	conf = &oauth2.Config{

@@ -27,6 +27,7 @@ type ParkingGroup struct {
 // Each ParkingPrice has range of time for free and paid parking,
 // limit for how long the place might be taken
 // rate that based on dollars per hour
+// WHY Decimal? see the package readme file :) but in storing money as float is a big NO!
 type ParkingPrice struct {
 	PaidParkingStart       string          `json:"paidParkingStart"`
 	PaidParkingEnd         string          `json:"paidParkingEnd"`

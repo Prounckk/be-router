@@ -23,6 +23,7 @@ func GetParkingByName(w http.ResponseWriter, r *http.Request) {
 	parking, err := model.GetParkingByName(number)
 	if err != nil {
 		log.Println(err)
+		w.WriteHeader(404)
 		w.Write([]byte(fmt.Sprintf("%v", err)))
 		return
 
@@ -30,6 +31,7 @@ func GetParkingByName(w http.ResponseWriter, r *http.Request) {
 	response, err := json.Marshal(parking)
 	if err != nil {
 		log.Println(err)
+		w.WriteHeader(404)
 		w.Write([]byte("Error with your request, please try again. code: " + ErrorCode))
 		return
 	}
@@ -43,6 +45,7 @@ func GetParkingStatusByName(w http.ResponseWriter, r *http.Request) {
 	parking, err := model.GetParkingByName(number)
 	if err != nil {
 		log.Println(err)
+		w.WriteHeader(404)
 		w.Write([]byte(fmt.Sprintf("%v", err)))
 		return
 
@@ -50,6 +53,7 @@ func GetParkingStatusByName(w http.ResponseWriter, r *http.Request) {
 	response, err := json.Marshal(parking.Status)
 	if err != nil {
 		log.Println(err)
+		w.WriteHeader(404)
 		w.Write([]byte("Error with your request, please try again. code: " + ErrorCode))
 		return
 	}
@@ -65,6 +69,7 @@ func GetParkingTimerByName(w http.ResponseWriter, r *http.Request) {
 	}
 	if err != nil {
 		log.Println(err)
+		w.WriteHeader(404)
 		w.Write([]byte(fmt.Sprintf("%v", err)))
 		return
 	}
@@ -72,9 +77,10 @@ func GetParkingTimerByName(w http.ResponseWriter, r *http.Request) {
 	if p.Status == model.Paid {
 		response, err := calculateExpiration(p.EndTime)
 		if err != nil {
+			w.WriteHeader(500)
 			w.Write([]byte("Error with your request, please try again. code: " + ErrorCode))
 			//The app can continue working, but this one is very specific and critical for the app
-			log.Fatalf("calculateExpiration() failed with '%s'\n", err)
+			log.Printf("calculateExpiration() failed with '%s'\n\n", err)
 			return
 		}
 		w.Write([]byte(response))
@@ -84,6 +90,7 @@ func GetParkingTimerByName(w http.ResponseWriter, r *http.Request) {
 	response, err := json.Marshal(p.Status)
 	if err != nil {
 		log.Println(err)
+		w.WriteHeader(404)
 		w.Write([]byte("Error with your request, please try again. code: " + ErrorCode))
 		return
 	}
