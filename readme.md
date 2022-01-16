@@ -8,7 +8,7 @@ The idea was to create an app with using native Golang packages and less externa
 ## System Design
 Miro Board https://miro.com/app/board/uXjVOZWLF4I=/?invite_link_id=106276965135
 
-![](help/Global-Parking-System-Design-miro.png)
+![](docs/Global-Parking-System-Design-miro.png)
 The design is cloud-agnostic, but I'm using here examples of AWS services, just to increase clarity.
 
 I see it as a set of lambda functions with the AWS API Gateway in front of this.
@@ -26,14 +26,32 @@ I see it as a set of lambda functions with the AWS API Gateway in front of this.
  
 ## LOCAL TESTING
 The app do not require yet any DB connection for now, but will be added soon
-
-### run on local: 
+### LOCAL GOLANG
+#### run on local: 
 - If you are using GoLand or IntelliJ, you can just start the app from the `main.go`
-![](help/go-build.png)
+![](docs/go-build.png)
 - Running terminal command  `go run main.go` would also make it work
-### test on local:
+#### test on local:
 see `HTTPrequest` folder for examples of requests
-![](help/httprequests.png)
+![](docs/httprequests.png)
+
+### Minikube
+#### 1) install minikube:
+- https://minikube.sigs.k8s.io/docs/start/
+#### 2) run on local:
+- `.start.sh` - to start the apps
+- `.stop.sh` - to stop the apps
+
+NOTE: make sure to run `minikube tunnel`
+
+![](docs/get-pods.png)
+
 
 ### Potential problems
+#### missing dependencies
 if something wrong, run `go mod tidy` It adds any missing module requirements necessary to build the current module’s packages and dependencies, and it removes requirements on modules that don’t provide any relevant packages
+
+#### no space error
+![](docs/no-space.png)
+To solve it, just run `docker system prune`
+

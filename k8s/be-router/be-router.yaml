@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-router
+  labels:
+    app: be-router
+    env: local
+    tier: backend
+    service: be-router
+spec:
+  selector:
+    matchLabels:
+      app: be-router
+  template:
+    metadata:
+      labels:
+        app: be-router
+        env: local
+        tier: backend
+        service: be-router
+    spec:
+      containers:
+        - name: be-router
+          image: be-router
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: "1"
+              memory: 1Gi
+          ports:
+            - containerPort: 3000  # Should match the port number that the Go application listens on
+              protocol: TCP
+            - containerPort: 40000
+              protocol: TCP
+          env:                     # Environment variables passed to the container
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: berouterconf
+                  key: PORT
+            - name: ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: berouterconf
+                  key: ENV
+

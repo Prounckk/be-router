@@ -5,13 +5,15 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
+	"os"
 )
 
 func StartApiServer() {
+	port := ":" + os.Getenv("PORT")
 	router := mux.NewRouter()
 	router.Use(middleware.LoggingMiddleware)
 	RegisterRoutes(router)
 
-	http.ListenAndServe(":8080", router)
-	fmt.Println("The app is running. http://localhost:8080/ping")
+	http.ListenAndServe(port, router)
+	fmt.Println("The app is running. http://localhost" + port + "/ping")
 }

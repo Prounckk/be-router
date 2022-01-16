@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment # required by statefulset
+metadata:
+  name: mongodb
+  labels:
+    app: mongodb
+    env: local
+    tier: database
+spec:
+  #serviceName: mongodb # required by statefulset
+  selector:
+    matchLabels:
+      app: mongodb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - name: db
+          image: mongo:4.2
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: berouterconf
+          ports:
+            - containerPort: 27017
+              #name: mongodb-service # required by statefulset
+          volumeMounts:
+            - name: mongodb-persistent-storage
+              mountPath: /data/db
+          resources:
+            requests:
+              cpu: "1"
+              memory: 512Mi
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: berouterconf
+                  key: MONGO_INITDB_ROOT_USERNAME
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: berouterconf
+                  key: MONGO_INITDB_ROOT_PASSWORD
+      volumes:
+        - name: mongodb-persistent-storage
+          persistentVolumeClaim:
+            claimName: mongodb-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb
+spec:
+  type: NodePort
+  ports:
+    - port: 27017
+      targetPort: 27017
+      protocol: TCP
+  selector:
+    app: mongodb
