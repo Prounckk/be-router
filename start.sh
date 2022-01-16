@@ -17,13 +17,12 @@ kubectl apply -f k8s/be-router/be-router-volumes.yaml
 sleep 15
 kubectl apply -f k8s/be-router/be-router-redis.yaml
 kubectl apply -f k8s/be-router/be-router-mongo.yaml
+kubectl apply -f k8s/be-router/be-router-mysql.yaml
 kubectl apply -f k8s/be-router/be-router.yaml
 sleep 5
 #
 ## Print current deployment state (unlikely to be finished yet)
 kubectl get all
-
-echo "Please update the link to connect to mongoDB \nmongodb://root:password@mongodb-service:27018/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false\n\n\n"
 
 ## Print current deployment state (unlikely to be finished yet)
 kubectl get all
