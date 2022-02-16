@@ -10,6 +10,9 @@ import (
 
 func StartApiServer() {
 	port := ":" + os.Getenv("PORT")
+	if port == ":" {
+		port = ":8080"
+	}
 	router := mux.NewRouter()
 	router.Use(middleware.LoggingMiddleware)
 	RegisterRoutes(router)

@@ -38,5 +38,7 @@ COPY --from=builder /go/bin/dlv /
 
 COPY --from=builder /server /
 
-#CMD ["/server"]
+
+
+# CMD ["/server"]
 CMD ["/dlv", "--listen=:40000", "--headless=true", "--log", "--continue", "--accept-multiclient", "--api-version=2", "exec", "/server"]
